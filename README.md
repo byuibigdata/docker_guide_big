@@ -42,7 +42,7 @@ Another huge advantage – learning to use Docker will make you a better enginee
 4. [Create a Docker compose yaml](https://docs.docker.com/compose/)
 5. Start your Docker all-spark-notebook container - map to a folder path on your computer `/Users/hathawayj/docker`.
 
-__Command Line_
+__Command Line__
 
 `docker run -it -p 5000:8888 -v /Users/hathawayj/docker:/cse451 jupyter/pyspark-notebook`
 
