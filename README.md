@@ -42,6 +42,7 @@ Another huge advantage – learning to use Docker will make you a better enginee
 4. [Create a Docker compose yaml](https://docs.docker.com/compose/)
 5. Start your Docker all-spark-notebook container.
 
+![](docker_startup.png | width=100)
 
 [^1]: [raygun.com](https://raygun.com/blog/what-is-docker/#:~:text=In%20conclusion%2C%20Docker%20is%20popular,create%20vast%20economies%20of%20scale.)
 [^2]: [blog.netap.com](https://blog.netapp.com/blogs/containers-vs-vms/)
