@@ -40,9 +40,23 @@ Another huge advantage – learning to use Docker will make you a better enginee
 2. [Create a Dockerhub account](https://hub.docker.com/signup)
 3. [Pull the jupyter/all-spark-notebook](https://hub.docker.com/r/jupyter/all-spark-notebook) `docker pull jupyter/all-spark-notebook`
 4. [Create a Docker compose yaml](https://docs.docker.com/compose/)
-5. Start your Docker all-spark-notebook container.
+5. Start your Docker all-spark-notebook container - map to a folder path on your computer `/Users/hathawayj/docker`.
+
+__Command Line_
+
+`docker run -it -p 5000:8888 -v /Users/hathawayj/docker:/cse451 jupyter/pyspark-notebook`
+
+__Docker Desktop__
 
 <img src="docker_startup.png" width="400" />
+
+6. Now open [http://localhost:5000/lab](http://localhost:5000/lab) and paste `?token=` plus the token shown at the end of the url.
+
+You can find the token in the terminal or in the logs.
+
+| Terminal | Docker Desktop Logs |
+|----------|---------------------|
+|<img src="terminal_token.png" width="400" /> | <img src="docker_desktop_logs.png" width="400" /> |
 
 
 [^1]: [raygun.com](https://raygun.com/blog/what-is-docker/#:~:text=In%20conclusion%2C%20Docker%20is%20popular,create%20vast%20economies%20of%20scale.)
