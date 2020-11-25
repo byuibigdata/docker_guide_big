@@ -44,13 +44,13 @@ Another huge advantage – learning to use Docker will make you a better enginee
 
 __Command Line__
 
-`docker run -it -p 5000:8888 -v /Users/hathawayj/docker:/cse451 jupyter/pyspark-notebook`
+`docker run --name cse451 -it -p 5000:8888 -v /Users/hathawayj/docker:/home/jovyan/cse451 jupyter/pyspark-notebook`
 
 __Docker Desktop__
 
 <img src="docker_startup.png" width="400" />
 
-6. Now open [http://localhost:5000/lab](http://localhost:5000/lab) and paste `?token=` plus the token shown at the end of the url.
+6. Now open [http://localhost:5000/lab](http://localhost:5000/lab?token=) and paste `?token=` plus the token shown at the end of the url.
 
 You can find the token in the terminal or in the logs.
 
