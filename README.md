@@ -44,7 +44,7 @@ Another huge advantage – learning to use Docker will make you a better enginee
 
 __Command Line__
 
-`docker run --name spark451 -it -p 5000:8888 -p 4040:4040 -p 4041:4041 -v /Users/hathawayj/docker:/home/jovyan/cse451 jupyter/pyspark-notebook`
+`docker run --name spark451 -it -p 5000:8888 -p 4040:4040 -p 4041:4041 -v /Users/hathawayj/docker:/home/jovyan/cse451 jupyter/all-spark-notebook`
 
 __Docker Desktop__
 
