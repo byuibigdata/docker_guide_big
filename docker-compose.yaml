@@ -1,0 +1,22 @@
+version: 20.10.0
+services:
+  db: 
+    image: postgress
+    envirnomnent:
+      POSTGRES_HOST_AUTH_METHOD: trust
+    volumes:   
+      - /Users/hathawayj/docker/postgresql:/var/lib/postgresql/data 
+      - /Users/hathawayj/docker/extshare:/extshare 
+    ports:
+      - '5432:5432'
+
+  notebook:
+    image: jupyter/all-spark-notebook
+    depends_on:
+      - db
+    ports:
+      - '5000:8888'
+      - '4040:4040' 
+      - '4041:4041'
+    volumes:
+      - /Users/hathawayj/docker:/home/jovyan/cse451
