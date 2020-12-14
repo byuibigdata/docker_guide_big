@@ -107,10 +107,9 @@ alter role webuser with password '2017';
 grant all privileges on database irs990 to webuser;
 alter database irs990 owner to webuser;
 ```
+Now we can restore the file[^5]
 
 `psql -U postgres irs990 < /extshare/irsdump_thru_08192020.sql`
-
-psql -U postgres DATABASE_NAME < backup.sql
 
 - [Meta command psql cheat sheet](https://gist.github.com/Kartones/dd3ff5ec5ea238d4c546)
 - [Making my db smaller](https://procrastinatingdev.com/speeding-up-postgres-restores-part-2/)
@@ -120,3 +119,4 @@ psql -U postgres DATABASE_NAME < backup.sql
 [^2]: [blog.netap.com](https://blog.netapp.com/blogs/containers-vs-vms/)
 [^3]: [zdnet.com](https://www.zdnet.com/article/what-is-docker-and-why-is-it-so-darn-popular/)
 [^4]: [dagshub.com](https://dagshub.com/blog/setting-up-data-science-workspace-with-docker/)
+[^5]: https://docs.bitnami.com/installer/infrastructure/mapp/administration/backup-restore-postgresql/ and https://markheath.net/post/exploring-postgresql-with-docker
