@@ -44,7 +44,12 @@ Another huge advantage – learning to use Docker will make you a better enginee
 
 __Command Line__
 
-`docker run --name spark451 -it -p 5000:8888 -p 4040:4040 -p 4041:4041 -v /Users/hathawayj/docker:/home/jovyan/cse451 jupyter/all-spark-notebook`
+```bash
+docker run --name spark451 -it \
+  -p 5000:8888 -p 4040:4040 -p 4041:4041 \
+  -v /Users/hathawayj/docker:/home/jovyan/cse451 \
+  jupyter/all-spark-notebook
+```
 
 __Docker Desktop__
 
@@ -57,6 +62,58 @@ You can find the token in the terminal or in the logs.
 | Terminal | Docker Desktop Logs |
 |----------|---------------------|
 |<img src="terminal_token.png" width="400" /> | <img src="docker_desktop_logs.png" width="400" /> |
+
+### Docker for postgres?
+
+We will use the [PostgreSQL Docker Container](https://hub.docker.com/_/postgres) to create our postgres server and database.  After pulling the container `docker pull postgres` we can get started.
+
+__Command Line__
+
+```bash
+docker run --name psql451 -d -p 5432:5432 \
+  -v /Users/hathawayj/docker/postgresql:/var/lib/postgresql/data \
+  -v /Users/hathawayj/docker/extshare:/extshare \
+  -e POSTGRES_HOST_AUTH_METHOD=trust \
+  postgres
+```
+
+
+Now we want to leverage the command line interface within the Docker container.
+
+`docker exec -it psql451 sh`
+
+Now we need to create our database for our 990 tax forms
+
+`createdb -U postgres irs990`
+
+After creating the database, we can launch the psql utility connected to our database
+
+`psql -U postgres irs990`
+
+Now we want to create a user `USER_NAME` and give them a password `USER_PASSWORD` and connect it to __irs990__.
+
+```bash
+create user USER_NAME;
+alter role USER_NAME with password 'USER_PASSWORD';
+grant all privileges on database irs990 to USER_NAME;
+alter database irs990 owner to USER_NAME;
+```
+
+Let's create a `webuser` as well becasue our database has that user.
+
+```bash
+create user webuser;
+alter role webuser with password '2017';
+grant all privileges on database irs990 to webuser;
+alter database irs990 owner to webuser;
+```
+
+`psql -U postgres irs990 < /extshare/irsdump_thru_08192020.sql`
+
+psql -U postgres DATABASE_NAME < backup.sql
+
+- [Meta command psql cheat sheet](https://gist.github.com/Kartones/dd3ff5ec5ea238d4c546)
+- [Making my db smaller](https://procrastinatingdev.com/speeding-up-postgres-restores-part-2/)
 
 
 [^1]: [raygun.com](https://raygun.com/blog/what-is-docker/#:~:text=In%20conclusion%2C%20Docker%20is%20popular,create%20vast%20economies%20of%20scale.)
