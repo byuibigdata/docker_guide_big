@@ -4,6 +4,8 @@ services:
     image: postgress
     envirnomnent:
       POSTGRES_HOST_AUTH_METHOD: trust
+      POSTGRES_USERNAME: postgres
+      POSTGRES_PASSWORD: postgres1234
     volumes:   
       - /Users/hathawayj/docker/postgresql:/var/lib/postgresql/data 
       - /Users/hathawayj/docker/extshare:/extshare 
