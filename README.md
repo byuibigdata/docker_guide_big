@@ -116,6 +116,21 @@ Now we can restore the file[^5]
 - [Meta command psql cheat sheet](https://gist.github.com/Kartones/dd3ff5ec5ea238d4c546)
 - [Making my db smaller](https://procrastinatingdev.com/speeding-up-postgres-restores-part-2/)
 
+#### Adminer
+
+Docker Hub has an [adminer image](https://hub.docker.com/_/adminer) that we can pull.
+
+```bash
+docker run --name adminer451 -d -p 8080:8080 --network n451 adminer
+```
+
+You can then go to [localhost:8080/](http://localhost:8080/) to see the adminer login.
+
+- System: _PostgreSQL_
+- Server: _name of postgres docker_
+- Username: _username you created_
+- Password: _The password created for the user_
+- Database: _irs990_
 
 [^1]: [raygun.com](https://raygun.com/blog/what-is-docker/#:~:text=In%20conclusion%2C%20Docker%20is%20popular,create%20vast%20economies%20of%20scale.)
 [^2]: [blog.netap.com](https://blog.netapp.com/blogs/containers-vs-vms/)
