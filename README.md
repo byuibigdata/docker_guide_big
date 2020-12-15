@@ -52,6 +52,8 @@ docker run --name spark451 -it \
   jupyter/all-spark-notebook
 ```
 
+- [java jar for postgres](https://jdbc.postgresql.org/download.html)
+
 __Docker Desktop__
 
 <img src="docker_startup.png" width="400" />
