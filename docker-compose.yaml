@@ -1,6 +1,6 @@
 version: 20.10.0
 services:
-  db: 
+  psql451: 
     image: postgress
     envirnomnent:
       POSTGRES_HOST_AUTH_METHOD: trust
@@ -12,15 +12,24 @@ services:
     networks:
       - n451
 
-  notebook:
+  spark451:
     image: jupyter/all-spark-notebook
     depends_on:
-      - db
+      - psql451
     ports:
-      - '5000:8888'
+      - '888:8888'
       - '4040:4040' 
       - '4041:4041'
     volumes:
       - /Users/hathawayj/docker:/home/jovyan/cse451
+    networks:
+      - n451
+
+  adminer451:
+    image: adminer
+    depends_on:
+      - psql451
+    ports:
+      - '8080:8080'
     networks:
       - n451
