@@ -75,6 +75,8 @@ docker run --name psql451 -d -p 5432:5432 \
   -v /Users/hathawayj/docker/postgresql:/var/lib/postgresql/data \
   -v /Users/hathawayj/docker/extshare:/extshare \
   -e POSTGRES_HOST_AUTH_METHOD=trust \
+  -e POSTGRES_USERNAME: postgres
+  -e POSTGRES_PASSWORD: postgres1234
   --network n451 \
   postgres
 ```
