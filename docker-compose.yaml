@@ -9,6 +9,8 @@ services:
       - /Users/hathawayj/docker/extshare:/extshare 
     ports:
       - '5432:5432'
+    networks:
+      - n451
 
   notebook:
     image: jupyter/all-spark-notebook
@@ -20,3 +22,5 @@ services:
       - '4041:4041'
     volumes:
       - /Users/hathawayj/docker:/home/jovyan/cse451
+    networks:
+      - n451
