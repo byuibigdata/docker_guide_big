@@ -46,8 +46,9 @@ __Command Line__
 
 ```bash
 docker run --name spark451 -it \
-  -p 5000:8888 -p 4040:4040 -p 4041:4041 \
+  -p 8888:8888 -p 4040:4040 -p 4041:4041 \
   -v /Users/hathawayj/docker:/home/jovyan/cse451 \
+  --network n451 \
   jupyter/all-spark-notebook
 ```
 
@@ -74,6 +75,7 @@ docker run --name psql451 -d -p 5432:5432 \
   -v /Users/hathawayj/docker/postgresql:/var/lib/postgresql/data \
   -v /Users/hathawayj/docker/extshare:/extshare \
   -e POSTGRES_HOST_AUTH_METHOD=trust \
+  --network n451 \
   postgres
 ```
 
