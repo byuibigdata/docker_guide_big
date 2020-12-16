@@ -1,8 +1,8 @@
-version: 20.10.0
+version: "3.8"
 services:
-  psql451: 
-    image: postgress
-    envirnomnent:
+  db: 
+    image: postgres
+    environment:
       POSTGRES_HOST_AUTH_METHOD: trust
       POSTGRES_USERNAME: postgres
       POSTGRES_PASSWORD: postgres1234
@@ -14,12 +14,12 @@ services:
     networks:
       - n451
 
-  spark451:
+  spark:
     image: jupyter/all-spark-notebook
     depends_on:
-      - psql451
+      - db
     ports:
-      - '888:8888'
+      - '8888:8888'
       - '4040:4040' 
       - '4041:4041'
     volumes:
@@ -27,11 +27,14 @@ services:
     networks:
       - n451
 
-  adminer451:
+  adminer:
     image: adminer
     depends_on:
-      - psql451
+      - db
     ports:
       - '8080:8080'
     networks:
       - n451
+
+networks:
+  n451:
