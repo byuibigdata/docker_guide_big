@@ -34,31 +34,35 @@ Using docker containers means you don't have to deal with "works on my machine" 
 
 Another huge advantage – learning to use Docker will make you a better engineer, or turn you into a data scientist with super powers. Many systems rely on Docker, and it will help you turn your ML projects into applications and deploy models into production.[dagshub.com](https://dagshub.com/blog/setting-up-data-science-workspace-with-docker/)
 
-## Getting started
+## Getting started using `docker run`
 
 1. [Install Docker Descktop](https://www.docker.com/get-started)
 2. [Create a Dockerhub account](https://hub.docker.com/signup)
 3. [Pull the jupyter/all-spark-notebook](https://hub.docker.com/r/jupyter/all-spark-notebook) `docker pull jupyter/all-spark-notebook`
 4. [Create a Docker compose yaml](https://docs.docker.com/compose/)
-5. Start your Docker all-spark-notebook container - map to a folder path on your computer `/Users/hathawayj/docker`.
+5. Start your Docker all-spark-notebook container - map to a folder path on your computer `/Users/hathawayj/git/BYUI451/docker_guide/data` to a docker volume.
 
 __Command Line__
 
 ```bash
-docker run --name spark451 -it \
+docker run --name spark -it \
   -p 8888:8888 -p 4040:4040 -p 4041:4041 \
-  -v /Users/hathawayj/docker:/home/jovyan/cse451 \
+  -v /Users/hathawayj/git/BYUI451/docker_guide/data:/home/jovyan/data \
+  -v /Users/hathawayj/git/BYUI451/docker_guide/scripts:/home/jovyan/scripts \
+  -v /Users/hathawayj/git/BYUI451/docker_guide/scratch:/home/jovyan/scratch \
+  -v /Users/hathawayj/git/BYUI451/docker_guide/work:/home/jovyan/work \
   --network n451 \
   jupyter/all-spark-notebook
 ```
 
-- [java jar for postgres](https://jdbc.postgresql.org/download.html)
+- [latest java jar for postgres](https://jdbc.postgresql.org/download.html)
+- [postgresql-42.2.18.jar in repo](scratch/postgresql-42.2.18.jar)
 
 __Docker Desktop__
 
 <img src="docker_startup.png" width="400" />
 
-6. Now open [http://localhost:5000/lab](http://localhost:5000/lab?token=) and paste `?token=` plus the token shown at the end of the url.
+6. Now open [http://localhost:8888/lab](http://localhost:8888/lab?token=) and paste `?token=` plus the token shown at the end of the url.
 
 You can find the token in the terminal or in the logs.
 
@@ -73,12 +77,12 @@ We will use the [PostgreSQL Docker Container](https://hub.docker.com/_/postgres)
 __Command Line__
 
 ```bash
-docker run --name psql451 -d -p 5432:5432 \
-  -v /Users/hathawayj/docker/postgresql:/var/lib/postgresql/data \
-  -v /Users/hathawayj/docker/extshare:/extshare \
+docker run --name db -d -p 5432:5432 \
+  -v /Users/hathawayj/git/BYUI451/docker_guide/data/postgresql:/var/lib/postgresql/data \
+  -v /Users/hathawayj/git/BYUI451/docker_guide/scratch:/scratch \
   -e POSTGRES_HOST_AUTH_METHOD=trust \
-  -e POSTGRES_USERNAME: postgres
-  -e POSTGRES_PASSWORD: postgres1234
+  -e POSTGRES_USERNAME=postgres \
+  -e POSTGRES_PASSWORD=postgres1234 \
   --network n451 \
   postgres
 ```
@@ -86,15 +90,17 @@ docker run --name psql451 -d -p 5432:5432 \
 
 Now we want to leverage the command line interface within the Docker container.
 
-`docker exec -it psql451 sh`
+`docker exec -it db sh`
 
-Now we need to create our database for our 990 tax forms
+Once in the docker command line we can interact with our postgres database.
+
+Now may we need to create our database for our 990 tax forms
 
 `createdb -U postgres irs990`
 
-After creating the database, we can launch the psql utility connected to our database
+We can launch the psql utility to manage the users and database.
 
-`psql -U postgres irs990`
+`psql -U postgres`
 
 Now we want to create a user `USER_NAME` and give them a password `USER_PASSWORD` and connect it to __irs990__.
 
@@ -113,9 +119,10 @@ alter role webuser with password '2017';
 grant all privileges on database irs990 to webuser;
 alter database irs990 owner to webuser;
 ```
-Now we can restore the file[^5]
 
-`psql -U postgres irs990 < /extshare/irsdump_thru_08192020.sql`
+Now we can restore the file [ref 1](ttps://docs.bitnami.com/installer/infrastructure/mapp/administration/backup-restore-postgresql/) and [ref 2](https://markheath.net/post/exploring-postgresql-with-docker)
+
+`psql -U postgres irs990 < /scratch/irsdump_thru_08192020.sql`
 
 - [Meta command psql cheat sheet](https://gist.github.com/Kartones/dd3ff5ec5ea238d4c546)
 - [Making my db smaller](https://procrastinatingdev.com/speeding-up-postgres-restores-part-2/)
@@ -125,16 +132,32 @@ Now we can restore the file[^5]
 Docker Hub has an [adminer image](https://hub.docker.com/_/adminer) that we can pull.
 
 ```bash
-docker run --name adminer451 -d -p 8080:8080 --network n451 adminer
+docker run --name adminer -d -p 8080:8080 --network n451 adminer
 ```
 
 You can then go to [localhost:8080/](http://localhost:8080/) to see the adminer login.
 
 - System: _PostgreSQL_
-- Server: _name of postgres docker_
-- Username: _username you created_
-- Password: _The password created for the user_
+- Server: _name of postgres docker_ (db if using the `docker run` command above)
+- Username: _postgres_
+- Password: _postgres1234_
 - Database: _irs990_
+
+## Getting started using `docker-compose`
+
+We can create a docker compose yml that automates a bit of the work we went through above. Once the yml is created, we can simply tell `docker-compose` to build our docker containers.
+
+`docker-compose -p c451 -f git/BYUI451/docker_guide/docker-compose.yml up`
+
+One difference is that each docker container will now have new names. 
+
+| docker-compose name     | docker run name     | 
+| ----------------------- | ------------------- | 
+| _c451_db_1_             | db                  | 
+| _c451_spark_1_          | spark               | 
+| _c451_adminer_1_        | adminer             | 
+
+With these new names a few commands and inputs will need to be updated.  For example, to get into the new postgres container we would run `docker exec -it c451_db_1 sh`.
 
 [^1]: [raygun.com](https://raygun.com/blog/what-is-docker/#:~:text=In%20conclusion%2C%20Docker%20is%20popular,create%20vast%20economies%20of%20scale.)
 [^2]: [blog.netap.com](https://blog.netapp.com/blogs/containers-vs-vms/)

@@ -1,0 +1,1 @@
+A folder for your analysis scripts that is connected to the db and spark containers.
