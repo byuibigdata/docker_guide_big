@@ -42,7 +42,7 @@ Another huge advantage – learning to use Docker will make you a better enginee
 4. Create a docker network `docker network create n451`
 5. Start your Docker all-spark-notebook container - map to a folder path on your computer `/Users/hathawayj/git/BYUI451/docker_guide/data` to a docker volume.
 
-We will see how to [create a Docker compose yaml](https://docs.docker.com/compose/) a little later.
+We will see how to [create a Docker compose yaml](https://docs.docker.com/compose/) a little later. _Note that the command line versions require that the full local volume path is specified. We will be able to use relative file paths with the yaml._
 
 __Command Line: Mac__'"
 
@@ -62,10 +62,10 @@ __Command Line: Windows__
 ```bash
 docker run --name spark -it ^
   -p 8888:8888 -p 4040:4040 -p 4041:4041 ^
-  -v /Users/hathawayj/git/BYUI451/docker_guide/data:/home/jovyan/data ^
-  -v /Users/hathawayj/git/BYUI451/docker_guide/scripts:/home/jovyan/scripts ^
-  -v /Users/hathawayj/git/BYUI451/docker_guide/scratch:/home/jovyan/scratch ^
-  -v /Users/hathawayj/git/BYUI451/docker_guide/work:/home/jovyan/work ^
+  -v C:/git/BYUI451/docker_guide/data:/home/jovyan/data ^
+  -v C:/git/BYUI451/docker_guide/scripts:/home/jovyan/scripts ^
+  -v C:/git/BYUI451/docker_guide/scratch:/home/jovyan/scratch ^
+  -v C:/git/BYUI451/docker_guide/work:/home/jovyan/work ^
   --network n451 ^
   jupyter/all-spark-notebook
 ```
@@ -89,7 +89,7 @@ You can find the token in the terminal or in the logs.
 
 We will use the [PostgreSQL Docker Container](https://hub.docker.com/_/postgres) to create our postgres server and database.  After pulling the container `docker pull postgres` we can get started.
 
-__Command Line__
+__Command Line: Mac__
 
 ```bash
 docker run --name db -d -p 5432:5432 \
@@ -102,22 +102,31 @@ docker run --name db -d -p 5432:5432 \
   postgres
 ```
 
+__Command Line: Windows__
+
+```bash
+docker run --name db -d -p 5432:5432 ^
+  -v C:/git/BYUI451/Users/hathawayj/git/BYUI451/docker_guide/data/postgresql:/var/lib/postgresql/data ^
+  -v C:/git/BYUI451/docker_guide/scratch:/home/jovyan/scratch ^
+  -e POSTGRES_HOST_AUTH_METHOD=trust ^
+  -e POSTGRES_USERNAME=postgres ^
+  -e POSTGRES_PASSWORD=postgres1234 ^
+  --network n451 ^
+  postgres
+```
+
 
 Now we want to leverage the command line interface within the Docker container.
 
 `docker exec -it db sh`
 
-Once in the docker command line we can interact with our postgres database.
-
-Now may we need to create our database for our 990 tax forms
-
-`createdb -U postgres irs990`
+Once in the docker command line we can interact with our postgres database. We may need to create our database for our 990 tax forms `createdb -U postgres NAMEDB`. For CSE 451, I will share the database files with you. 
 
 We can launch the psql utility to manage the users and database.
 
 `psql -U postgres`
 
-Now we want to create a user `USER_NAME` and give them a password `USER_PASSWORD` and connect it to __irs990__.
+For CSE 450, we want to create a user `USER_NAME` and give them a password `USER_PASSWORD` and connect it to __irs990__ database that I shared.
 
 ```bash
 create user USER_NAME;
@@ -135,7 +144,9 @@ grant all privileges on database irs990 to webuser;
 alter database irs990 owner to webuser;
 ```
 
-Now we can restore the file [ref 1](ttps://docs.bitnami.com/installer/infrastructure/mapp/administration/backup-restore-postgresql/) and [ref 2](https://markheath.net/post/exploring-postgresql-with-docker)
+#### Restoring a backup file
+
+We can restore the a backup file [ref 1](ttps://docs.bitnami.com/installer/infrastructure/mapp/administration/backup-restore-postgresql/) and [ref 2](https://markheath.net/post/exploring-postgresql-with-docker) but this takes hours for our database.
 
 `psql -U postgres irs990 < /scratch/irsdump_thru_08192020.sql`
 
@@ -150,7 +161,7 @@ Docker Hub has an [adminer image](https://hub.docker.com/_/adminer) that we can 
 docker run --name adminer -d -p 8080:8080 --network n451 adminer
 ```
 
-You can then go to [localhost:8080/](http://localhost:8080/) to see the adminer login.
+You can then go to [localhost:8080/](http://localhost:8080/) to see the adminer login. If you haven't created a database, then you can leave `Database` blank.
 
 - System: _PostgreSQL_
 - Server: _name of postgres docker_ (db if using the `docker run` command above)
@@ -160,9 +171,9 @@ You can then go to [localhost:8080/](http://localhost:8080/) to see the adminer 
 
 ## Getting started using `docker-compose`
 
-We can create a docker compose yml that automates a bit of the work we went through above. Once the yml is created, we can simply tell `docker-compose` to build our docker containers.
+We can create a docker compose yml that automates a bit of the work we went through above. Once the yml is created, we can simply tell `docker-compose` to build our docker containers. If your terminal is open in the git directory, you can run the following.
 
-`docker-compose -p c451 -f git/BYUI451/docker_guide/docker-compose.yml up`
+`docker-compose -p c451 -f docker-compose.yml up`
 
 One difference is that each docker container will now have new names. 
 
