@@ -10,7 +10,7 @@
 
 'Containers sit on top of a physical server and its host OS—for example, Linux or Windows. Each container shares the host OS kernel and, usually, the binaries and libraries, too. Shared components are read-only. Containers are thus exceptionally “light”—they are only megabytes in size and take just seconds to start, versus gigabytes and minutes for a Virtual Machines.'
 
-'Containers also reduce management overhead. Because they share a common operating system, only a single operating system needs care and feeding for bug fixes, patches, and so on. This concept is similar to what we experience with hypervisor hosts: fewer management points but slightly higher fault domain. In short, containers are lighter weight and more portable than VMs.' [blog.netap.com](https://blog.netapp.com/blogs/containers-vs-vms/)
+'Containers also reduce management overhead. Because they share a common operating system, only a single operating system needs care and feeding for bug fixes, patches, and so on. In short, containers are lighter weight and more portable than VMs.' [blog.netap.com](https://blog.netapp.com/blogs/containers-vs-vms/)
 
 ### Why Docker?
 
@@ -28,21 +28,23 @@ Since then Docker donated "its software container format and its runtime, as wel
 
 Using docker containers means you don't have to deal with "works on my machine" problems. Generally, the main advantage Docker provides is standardization. This means you can define the parameters of your container once, and run it wherever Docker is installed. This in turn provides a few major advantages:
 
-1. __Reproducibility:__ Everyone has the same OS, the same versions of tools etc. This means you don't need to deal with "works on my machine" problems. If it works on your machine, it works on everyone's machine.
-2. __Portability:__ This means that moving from local development to a super-computing cluster is easy. Also, if you're working on open source data science projects, like we do at DAGsHub, you can provide collaborators with an easy way to bypass setup hassle.
+1. __Reproducibility:__ Everyone has the same OS, the same versions of tools etc. If it works on your machine, it works on everyone's machine.
+2. __Portability:__ This means that moving from local development to a super-computing cluster is easy. Also, if you're working on open source data science projects you can provide collaborators with an easy way to bypass setup hassle.
 3. __Docker Hub:__ You can take advantage of the community to find pre-built images [search here](https://hub.docker.com/search?q=data%20science&type=image)
 
-Another huge advantage – learning to use Docker will make you a better engineer, or turn you into a data scientist with super powers. Many systems rely on Docker, and it will help you turn your ML projects into applications and deploy models into production.[dagshub.com](https://dagshub.com/blog/setting-up-data-science-workspace-with-docker/)
+Another huge advantage – learning to use Docker will make you a better engineer, or turn you into a data scientist with super powers. Many systems rely on Docker, and it will help you turn your ML projects into applications and deploy models into production. [dagshub.com](https://dagshub.com/blog/setting-up-data-science-workspace-with-docker/)
 
 ## Getting started using `docker run`
 
 1. [Install Docker Descktop](https://www.docker.com/get-started)
 2. [Create a Dockerhub account](https://hub.docker.com/signup)
 3. [Pull the jupyter/all-spark-notebook](https://hub.docker.com/r/jupyter/all-spark-notebook) `docker pull jupyter/all-spark-notebook`
-4. [Create a Docker compose yaml](https://docs.docker.com/compose/)
+4. Create a docker network `docker network create n451`
 5. Start your Docker all-spark-notebook container - map to a folder path on your computer `/Users/hathawayj/git/BYUI451/docker_guide/data` to a docker volume.
 
-__Command Line__
+We will see how to [create a Docker compose yaml](https://docs.docker.com/compose/) a little later.
+
+__Command Line: Mac__'"
 
 ```bash
 docker run --name spark -it \
@@ -52,6 +54,19 @@ docker run --name spark -it \
   -v /Users/hathawayj/git/BYUI451/docker_guide/scratch:/home/jovyan/scratch \
   -v /Users/hathawayj/git/BYUI451/docker_guide/work:/home/jovyan/work \
   --network n451 \
+  jupyter/all-spark-notebook
+```
+
+__Command Line: Windows__
+
+```bash
+docker run --name spark -it ^
+  -p 8888:8888 -p 4040:4040 -p 4041:4041 ^
+  -v /Users/hathawayj/git/BYUI451/docker_guide/data:/home/jovyan/data ^
+  -v /Users/hathawayj/git/BYUI451/docker_guide/scripts:/home/jovyan/scripts ^
+  -v /Users/hathawayj/git/BYUI451/docker_guide/scratch:/home/jovyan/scratch ^
+  -v /Users/hathawayj/git/BYUI451/docker_guide/work:/home/jovyan/work ^
+  --network n451 ^
   jupyter/all-spark-notebook
 ```
 
