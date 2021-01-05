@@ -133,3 +133,6 @@ dmypy.json
 /data/spark-warehouse
 /data/Open990
 /data/vermont
+
+# ignore draft folder in scripts
+/scripts/draft
