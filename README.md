@@ -120,13 +120,13 @@ Now we want to leverage the command line interface within the Docker container.
 
 `docker exec -it db sh`
 
-Once in the docker command line we can interact with our postgres database. We may need to create our database for our 990 tax forms `createdb -U postgres NAMEDB`. For CSE 451, I will share the database files with you. 
+Once in the docker command line we can interact with our postgres database. We may need to create our database for our 990 tax forms `create db -U postgres NAMEDB`. For CSE 451, I will share the database files with you. 
 
 We can launch the psql utility to manage the users and database.
 
 `psql -U postgres`
 
-For CSE 450, we want to create a user `USER_NAME` and give them a password `USER_PASSWORD` and connect it to __irs990__ database that I shared.
+For CSE 451, we want to create a user `USER_NAME` and give them a password `USER_PASSWORD` and connect it to __irs990__ database that I shared.
 
 ```bash
 create user USER_NAME;
@@ -135,7 +135,7 @@ grant all privileges on database irs990 to USER_NAME;
 alter database irs990 owner to USER_NAME;
 ```
 
-Let's create a `webuser` as well becasue our database has that user.
+Let's create a `webuser` as well because our database has that user.
 
 ```bash
 create user webuser;
