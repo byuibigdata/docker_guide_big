@@ -36,13 +36,15 @@ Another huge advantage – learning to use Docker will make you a better enginee
 
 ## Getting started using `docker run`
 
-1. [Install Docker Descktop](https://www.docker.com/get-started)
+1. [Install Docker Desktop](https://www.docker.com/get-started)
 2. [Create a Dockerhub account](https://hub.docker.com/signup)
 3. [Pull the jupyter/all-spark-notebook](https://hub.docker.com/r/jupyter/all-spark-notebook) `docker pull jupyter/all-spark-notebook`
 4. Create a docker network `docker network create n451`
-5. Start your Docker all-spark-notebook container - map to a folder path on your computer `/Users/hathawayj/git/BYUI451/docker_guide/data` to a docker volume.
+5. Start your Docker all-spark-notebook container - map to a folder path on your computer to a docker volume. I have included my path (`/Users/hathawayj/git/BYUI451/docker_guide/data`) which you will need to change. The path to the right of `:` will stay the same.
 
-We will see how to [create a Docker compose yaml](https://docs.docker.com/compose/) a little later. _Note that the command line versions require that the full local volume path is specified. We will be able to use relative file paths with the yaml._
+We will see how to [create a Docker compose yaml](https://docs.docker.com/compose/) a little later. The Docker compose yaml includes a Postgress and Adminer container as well.  You can read about creating those containers using `docker run` at [database.md](database.md). In trying to get all three containers to communicate, you will see the need for step 4 above.
+
+_Note that the command line versions require that the full local volume path is specified. We will be able to use relative file paths with the yaml._
 
 __Command Line: Mac__'"
 
@@ -85,95 +87,26 @@ You can find the token in the terminal or in the logs.
 |----------|---------------------|
 |<img src="terminal_token.png" width="400" /> | <img src="docker_desktop_logs.png" width="400" /> |
 
-### Docker for postgres?
+With `docker run` we can get a full Spark environment up and running on our computer in minutes. In this container, we can practice our Spark magic and even speed up some of the work we would do in pandas.  Spend some time in Jupyter Lab getting used to Spark. Here are some great links to help you with pyspark.
 
-We will use the [PostgreSQL Docker Container](https://hub.docker.com/_/postgres) to create our postgres server and database.  After pulling the container `docker pull postgres` we can get started.
+- [pyspark-examples](https://github.com/spark-examples/pyspark-examples)
+- [PySpark Cheat Sheet](https://s3.amazonaws.com/assets.datacamp.com/blog_assets/PySpark_SQL_Cheat_Sheet_Python.pdf)
+- [PySpark SQL Cheat Sheet](https://intellipaat.com/mediaFiles/2019/03/PySpark-SQL-cheat-sheet.jpg)
 
-__Command Line: Mac__
-
-```bash
-docker run --name db -d -p 5432:5432 \
-  -v /Users/hathawayj/git/BYUI451/docker_guide/data/postgresql:/var/lib/postgresql/data \
-  -v /Users/hathawayj/git/BYUI451/docker_guide/scratch:/scratch \
-  -e POSTGRES_HOST_AUTH_METHOD=trust \
-  -e POSTGRES_USERNAME=postgres \
-  -e POSTGRES_PASSWORD=postgres1234 \
-  --network n451 \
-  postgres
-```
-
-__Command Line: Windows__
-
-```bash
-docker run --name db -d -p 5432:5432 ^
-  -v C:/git/BYUI451/Users/hathawayj/git/BYUI451/docker_guide/data/postgresql:/var/lib/postgresql/data ^
-  -v C:/git/BYUI451/docker_guide/scratch:/home/jovyan/scratch ^
-  -e POSTGRES_HOST_AUTH_METHOD=trust ^
-  -e POSTGRES_USERNAME=postgres ^
-  -e POSTGRES_PASSWORD=postgres1234 ^
-  --network n451 ^
-  postgres
-```
-
-
-Now we want to leverage the command line interface within the Docker container.
-
-`docker exec -it db sh`
-
-Once in the docker command line we can interact with our postgres database. We may need to create our database for our 990 tax forms `create db -U postgres NAMEDB`. For CSE 451, I will share the database files with you. 
-
-We can launch the psql utility to manage the users and database.
-
-`psql -U postgres`
-
-For CSE 451, we want to create a user `USER_NAME` and give them a password `USER_PASSWORD` and connect it to __irs990__ database that I shared.
-
-```bash
-create user USER_NAME;
-alter role USER_NAME with password 'USER_PASSWORD';
-grant all privileges on database irs990 to USER_NAME;
-alter database irs990 owner to USER_NAME;
-```
-
-Let's create a `webuser` as well because our database has that user.
-
-```bash
-create user webuser;
-alter role webuser with password '2017';
-grant all privileges on database irs990 to webuser;
-alter database irs990 owner to webuser;
-```
-
-#### Restoring a backup file
-
-We can restore the a backup file [ref 1](ttps://docs.bitnami.com/installer/infrastructure/mapp/administration/backup-restore-postgresql/) and [ref 2](https://markheath.net/post/exploring-postgresql-with-docker) but this takes hours for our database.
-
-`psql -U postgres irs990 < /scratch/irsdump_thru_08192020.sql`
-
-- [Meta command psql cheat sheet](https://gist.github.com/Kartones/dd3ff5ec5ea238d4c546)
-- [Making my db smaller](https://procrastinatingdev.com/speeding-up-postgres-restores-part-2/)
-
-#### Adminer
-
-Docker Hub has an [adminer image](https://hub.docker.com/_/adminer) that we can pull.
-
-```bash
-docker run --name adminer -d -p 8080:8080 --network n451 adminer
-```
-
-You can then go to [localhost:8080/](http://localhost:8080/) to see the adminer login. If you haven't created a database, then you can leave `Database` blank.
-
-- System: _PostgreSQL_
-- Server: _name of postgres docker_ (db if using the `docker run` command above)
-- Username: _postgres_
-- Password: _postgres1234_
-- Database: _irs990_
-
+You could try using the [master files](https://www.irs.gov/charities-non-profits/exempt-organizations-business-master-file-extract-eo-bmf) from the United States IRS 990 forms about non-profit companies. Find the four region `.csv` files and explore.
 ## Getting started using `docker-compose`
 
-We can create a docker compose yml that automates a bit of the work we went through above. Once the yml is created, we can simply tell `docker-compose` to build our docker containers. If your terminal is open in the git directory, you can run the following.
+To use this section, I am assuming the following.
 
-`docker-compose -p c451 -f docker-compose.yml up`
+- You have cloned this repo to your local computer.
+- You have a terminal open at the file path of this cloned repo.
+- You have reviewed the [database.md](database.md) guide on the postgress and Adminer containers.
+
+We can create a docker compose yml that automates a bit of the work we went through above. Once the yml is created, we can simply tell `docker-compose` to build our docker containers. Here are the steps
+
+1. Clone this repository to your computer.
+2. Open your terminal and navigate to your git repo directory you just cloned. (Mac: `pwd`, Windows:`cd`)
+3. If your terminal is open in the git directory, you can run the `docker-compose` command - `docker-compose -p c451 -f docker-compose.yml up`.
 
 One difference is that each docker container will now have new names. 
 

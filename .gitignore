@@ -132,6 +132,7 @@ dmypy.json
 /data/postgresql
 /data/spark-warehouse
 /data/Open990
+/data/irs990
 /data/vermont
 
 # ignore draft folder in scripts
