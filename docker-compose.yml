@@ -5,7 +5,7 @@ services:
     environment:
       POSTGRES_HOST_AUTH_METHOD: trust
       POSTGRES_USERNAME: postgres
-      POSTGRES_PASSWORD: postgres1234
+      POSTGRES_PASSWORD: postgres1234 #BYUIds2017
     volumes:   
       - ./data/postgresql:/var/lib/postgresql/data 
       - ./scratch:/scratch 

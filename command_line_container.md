@@ -2,9 +2,18 @@
 
 ## Docker command line
 
-Now we want to leverage the command line interface within the Docker container.
+Now we want to leverage the command line interface (CLI) within the Docker container.  The command to enter the CLI has four parts.
 
 `docker exec -it db sh`
+
+1. `docker` tells the command line to execute a docker command.
+2. `exec` is how you tell Docker to [run a command in a running container](https://docs.docker.com/engine/reference/commandline/exec/).
+3. `-it` makes the [container work much like a terminal connection](https://stackoverflow.com/questions/30137135/confused-about-docker-t-option-to-allocate-a-pseudo-tty).
+4. `db` the name of the docker container.  We might have `c451_db_1` there as well.
+5. `sh` is the command you want to start an shell or terminal connection.
+
+This [quide](
+https://www.baeldung.com/linux/shell-alpine-docker) puts a few more words to the above steps.
 
 ## psql utility
 
@@ -14,22 +23,13 @@ We can launch the psql utility to manage the users and database.
 
 `psql -U postgres`
 
-For CSE 451, we want to create a user `USER_NAME` and give them a password `USER_PASSWORD` and connect it to __irs990__ database that I will share.
+For CSE 451, we might want to create a user `USER_NAME` and give them a password `USER_PASSWORD` and connect it to __irs990__ database that I will share.
 
 ```bash
 create user USER_NAME;
 alter role USER_NAME with password 'USER_PASSWORD';
 grant all privileges on database irs990 to USER_NAME;
 alter database irs990 owner to USER_NAME;
-```
-
-Let's create a `webuser` as well because our database has that user.
-
-```bash
-create user webuser;
-alter role webuser with password '2017';
-grant all privileges on database irs990 to webuser;
-alter database irs990 owner to webuser;
 ```
 
 ### Restoring a backup file

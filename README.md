@@ -101,12 +101,13 @@ To use this section, I am assuming the following.
 - You have cloned this repo to your local computer.
 - You have a terminal open at the file path of this cloned repo.
 - You have reviewed the [database.md](database.md) guide on the postgress and Adminer containers.
+- You have examined the [docker-compose.yml](docker-compose.yml) file.
 
-We can create a docker compose yml that automates a bit of the work we went through above. Once the yml is created, we can simply tell `docker-compose` to build our docker containers. Here are the steps
+We can create a docker compose `.yml` that automates a bit of the work we went through above. Once the `.yml` is created, we can simply tell `docker-compose` to build our docker containers. Here are the steps
 
 1. Clone this repository to your computer.
-2. Open your terminal and navigate to your git repo directory you just cloned. (Mac: `pwd`, Windows:`cd`)
-3. If your terminal is open in the git directory, you can run the `docker-compose` command - `docker-compose -p c451 -f docker-compose.yml up`.
+2. Open your terminal and navigate to your git repo directory you just cloned. (Mac: `pwd`, Windows:`cd` to see your working directory)
+3. If your terminal is open in the git directory, you can run the `docker-compose`.  The full command - `docker-compose -p c451 -f docker-compose.yml up`.
 
 One difference is that each docker container will now have new names. 
 
@@ -117,6 +118,12 @@ One difference is that each docker container will now have new names.
 | _c451_adminer_1_        | adminer             | 
 
 With these new names a few commands and inputs will need to be updated.  For example, to get into the new postgres container we would run `docker exec -it c451_db_1 sh`.
+
+## Other readme.md files
+
+- [Postgres database Docker support](database.md)
+- [Docker CLI and psql](command_line_containers.md)
+- [Spark Guide using our Docker containers](https://github.com/BYUI451/spark_guide)
 
 [^1]: [raygun.com](https://raygun.com/blog/what-is-docker/#:~:text=In%20conclusion%2C%20Docker%20is%20popular,create%20vast%20economies%20of%20scale.)
 [^2]: [blog.netap.com](https://blog.netapp.com/blogs/containers-vs-vms/)
