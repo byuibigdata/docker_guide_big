@@ -79,5 +79,5 @@ One difference is that each docker container will now have new names.
 | _c451_spark_1_          | spark               | 
 | _c451_adminer_1_        | adminer             | 
 
-With these new names a few commands and inputs will need to be updated.  For example, to get into the new postgres container we would run `docker exec -it c451_db_1 sh`.
+With these new names a few commands and inputs will need to be updated.  For example, to get into the new postgres container we would run `docker exec -it c451_db_1 sh`.  Once we are in our host or container we can leverage `psql` to interact with the postgres database.  You can read [psql command line interface guide (psql_cli.md)](psql_cli.md)
 
