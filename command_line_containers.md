@@ -4,20 +4,19 @@
 
 Now we want to leverage the command line interface (CLI) within the Docker container.  The command to enter the CLI has four parts.
 
-`docker exec -it db sh`
+`docker exec -it db sh` or `docker exec -it db_451 sh`
 
 1. `docker` tells the command line to execute a docker command.
 2. `exec` is how you tell Docker to [run a command in a running container](https://docs.docker.com/engine/reference/commandline/exec/).
 3. `-it` makes the [container work much like a terminal connection](https://stackoverflow.com/questions/30137135/confused-about-docker-t-option-to-allocate-a-pseudo-tty).
-4. `db` the name of the docker container.  We might have `c451_db_1` there as well.
+4. `db` the name of the docker container.  We might have `db_451` there as well.
 5. `sh` is the command you want to start an shell or terminal connection.
 
-This [quide](
-https://www.baeldung.com/linux/shell-alpine-docker) puts a few more words to the above steps.
+This [docker cli guide](https://www.baeldung.com/linux/shell-alpine-docker) puts a few more words to the above steps.
 
 ## psql utility
 
-Once in the docker command line we can interact with our postgres database. We may need to create our database for our 990 tax forms `create  -U postgres NAMEDB`. For CSE 451, I will share the database files with you. 
+Once in the docker command line we can interact with our postgresql database. We may need to create our database for our 990 tax forms `create  -U postgres NAMEDB`. _For CSE 451, I will share the database files with you._   
 
 We can launch the psql utility to manage the users and database.
 
@@ -51,6 +50,5 @@ Once connected you can then use any psql functionality.  We want to restore our 
 `psql -h {yourconnection} -p 5432 -U {username} irs990 <  dump_backup.sql`
 
 The [stackoverflow.com response on restorations](https://stackoverflow.com/questions/2732474/restore-a-postgres-backup-file-using-the-command-line).  When you are in `psql` one nice [meta-command](https://gist.github.com/Kartones/dd3ff5ec5ea238d4c546) is `\i` which is the command to execute a shell command.  For example `\i pwd` on Linux or Mac would show your current working directory.
-
 
 - [Making my db smaller](https://procrastinatingdev.com/speeding-up-postgres-restores-part-2/)

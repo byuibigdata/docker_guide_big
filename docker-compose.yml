@@ -1,6 +1,7 @@
 version: "3.8"
 services:
-  db: 
+  db:
+    container_name: db_451
     image: postgres
     environment:
       POSTGRES_HOST_AUTH_METHOD: trust
@@ -15,6 +16,7 @@ services:
       - n451
 
   spark:
+    container_name: spark_451
     image: jupyter/all-spark-notebook
     depends_on:
       - db
@@ -31,6 +33,7 @@ services:
       - n451
 
   adminer:
+    container_name: adminer_451
     image: adminer
     depends_on:
       - db

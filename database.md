@@ -38,6 +38,8 @@ docker run --name db -d -p 5432:5432 ^
   postgres
 ```
 
+- [latest java jar for postgresql](https://jdbc.postgresql.org/download.html)
+- [postgresql-42.2.18.jar in repo](scratch/postgresql-42.2.18.jar)
 #### Adminer
 
 Docker Hub has an [adminer image](https://hub.docker.com/_/adminer) that we can pull.

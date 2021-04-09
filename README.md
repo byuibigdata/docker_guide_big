@@ -14,9 +14,9 @@
 
 ### Why Docker?
 
-'Docker enables developers to easily pack, ship, and run any application as a lightweight, portable, self-sufficient container, which can run virtually anywhere. Containers gives you instant application portability.' 
+'Docker enables developers to easily pack, ship, and run any application as a lightweight, portable, self-sufficient container, which can run virtually anywhere. Containers gives you instant application portability.'    
 
-Containers do this by enabling developers to isolate code into a single container. This makes it easier to modify and update the program. It also lends itself, as Docker points out, for enterprises to break up big development projects among multiple smaller, Agile teams using Jenkins, an open-source CI/CD program, to automate the delivery of new software in containers.[zdnet.com](https://www.zdnet.com/article/what-is-docker-and-why-is-it-so-darn-popular/)
+Containers do this by enabling developers to isolate code into a single container. This makes it easier to modify and update the program. It also lends itself, as Docker points out, for enterprises to break up big development projects among multiple smaller Agile teams to automate the delivery of new software in containers.[zdnet.com](https://www.zdnet.com/article/what-is-docker-and-why-is-it-so-darn-popular/)
 
 > Docker is to containers as GitHub is to Git
 
@@ -42,7 +42,7 @@ Another huge advantage – learning to use Docker will make you a better enginee
 4. Create a docker network `docker network create n451`
 5. Start your Docker all-spark-notebook container - map to a folder path on your computer to a docker volume. I have included my path (`/Users/hathawayj/git/BYUI451/docker_guide/data`) which you will need to change. The path to the right of `:` will stay the same.
 
-We will see how to [create a Docker compose yaml](https://docs.docker.com/compose/) a little later. The Docker compose yaml includes a Postgress and Adminer container as well.  You can read about creating those containers using `docker run` at [database.md](database.md). In trying to get all three containers to communicate, you will see the need for step 4 above.
+We will see how to [create a Docker compose yaml](https://docs.docker.com/compose/) a little later. The Docker compose yaml includes a PostgreSQL and Adminer container as well.  You can read about creating those containers using `docker run` at [database.md](database.md). In trying to get all three containers to communicate, you will see the need for step 4 above.
 
 _Note that the command line versions require that the full local volume path is specified. We will be able to use relative file paths with the yaml._
 
@@ -72,9 +72,6 @@ docker run --name spark -it ^
   jupyter/all-spark-notebook
 ```
 
-- [latest java jar for postgres](https://jdbc.postgresql.org/download.html)
-- [postgresql-42.2.18.jar in repo](scratch/postgresql-42.2.18.jar)
-
 __Docker Desktop__
 
 <img src="docker_startup.png" width="400" />
@@ -98,9 +95,9 @@ You could try using the [master files](https://www.irs.gov/charities-non-profits
 
 To use this section, I am assuming the following.
 
-- You have cloned this repo to your local computer.
+- You have cloned your template repo to your local computer.
 - You have a terminal open at the file path of this cloned repo.
-- You have reviewed the [database.md](database.md) guide on the postgress and Adminer containers.
+- You have reviewed the [database.md](database.md) guide on the postgresql and Adminer containers.
 - You have examined the [docker-compose.yml](docker-compose.yml) file.
 
 We can create a docker compose `.yml` that automates a bit of the work we went through above. Once the `.yml` is created, we can simply tell `docker-compose` to build our docker containers. Here are the steps
@@ -113,11 +110,11 @@ One difference is that each docker container will now have new names.
 
 | docker-compose name     | docker run name     | 
 | ----------------------- | ------------------- | 
-| _c451_db_1_             | db                  | 
-| _c451_spark_1_          | spark               | 
-| _c451_adminer_1_        | adminer             | 
+| _db_451_                | db                  | 
+| _spark_451_             | spark               | 
+| _adminer_451_           | adminer             | 
 
-With these new names a few commands and inputs will need to be updated.  For example, to get into the new postgres container we would run `docker exec -it c451_db_1 sh`.
+With these new names a few commands and inputs will need to be updated.  For example, to get into the new postgres container we would run `docker exec -it db_451 sh`.
 
 ## Other readme.md files
 
@@ -125,8 +122,10 @@ With these new names a few commands and inputs will need to be updated.  For exa
 - [Docker CLI and psql](command_line_containers.md)
 - [Spark Guide using our Docker containers](https://github.com/BYUI451/spark_guide)
 
-[^1]: [raygun.com](https://raygun.com/blog/what-is-docker/#:~:text=In%20conclusion%2C%20Docker%20is%20popular,create%20vast%20economies%20of%20scale.)
-[^2]: [blog.netap.com](https://blog.netapp.com/blogs/containers-vs-vms/)
-[^3]: [zdnet.com](https://www.zdnet.com/article/what-is-docker-and-why-is-it-so-darn-popular/)
-[^4]: [dagshub.com](https://dagshub.com/blog/setting-up-data-science-workspace-with-docker/)
-[^5]: https://docs.bitnami.com/installer/infrastructure/mapp/administration/backup-restore-postgresql/ and https://markheath.net/post/exploring-postgresql-with-docker
+## References
+
+- [raygun.com](https://raygun.com/blog/what-is-docker/#:~:text=In%20conclusion%2C%20Docker%20is%20popular,create%20vast%20economies%20of%20scale.)
+- [blog.netap.com](https://blog.netapp.com/blogs/containers-vs-vms/)
+- [zdnet.com](https://www.zdnet.com/article/what-is-docker-and-why-is-it-so-darn-popular/)
+- [dagshub.com](https://dagshub.com/blog/setting-up-data-science-workspace-with-docker/)
+- [backup and restore postgresql](https://docs.bitnami.com/installer/infrastructure/mapp/administration/backup-restore-postgresql/) and [docker and postgresql](https://markheath.net/post/exploring-postgresql-with-docker)
