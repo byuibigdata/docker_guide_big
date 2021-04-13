@@ -1,5 +1,7 @@
 # Working in the Docker Container with psql
 
+_This document is currently used for faculty notes._
+
 ## Docker command line
 
 Now we want to leverage the command line interface (CLI) within the Docker container.  The command to enter the CLI has four parts.
