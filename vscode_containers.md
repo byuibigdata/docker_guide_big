@@ -12,7 +12,7 @@ The following gif highlights the extension and process to start VSCode within th
 
 The following gif highlights the extension and process to start VSCode within the container.
 
-![](vsccode_remotecontainers.gif)
+![](vscode_remotecontainers.gif)
 
 ## References
 
