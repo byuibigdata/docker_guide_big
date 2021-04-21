@@ -8,7 +8,7 @@ Based on [this guide](https://itnext.io/wsl2-tips-limit-cpu-memory-when-using-do
 
 1. Open Windows Terminal/CMD/PowerShell.
 
-2. Run the following command.
+2. Run the following command (if the notepad command doesn't work you can [manually create the file](https://docs.microsoft.com/en-us/windows/wsl/wsl-config#configure-global-options-with-wslconfig).
 
     ```bash
     # turn off all wsl instances such as docker-desktop
