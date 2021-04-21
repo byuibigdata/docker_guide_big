@@ -36,7 +36,7 @@ Another huge advantage – learning to use Docker will make you a better enginee
 
 ## Getting started using `docker run`
 
-1. [Install Docker Desktop](https://www.docker.com/get-started) (Windows users will need to [install WSL-2](windows-wsl2.md).)
+1. [Install Docker Desktop](https://www.docker.com/get-started) (Windows users will need to [install WSL-2](windows_wsl2.md).)
 2. [Create a Dockerhub account](https://hub.docker.com/signup)
 3. [Pull the jupyter/all-spark-notebook](https://hub.docker.com/r/jupyter/all-spark-notebook) `docker pull jupyter/all-spark-notebook`
 4. Create a docker network `docker network create n451`
