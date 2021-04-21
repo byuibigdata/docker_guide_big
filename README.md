@@ -54,7 +54,6 @@ docker run --name spark -it \
   -v /Users/hathawayj/git/BYUI451/docker_guide/data:/home/jovyan/data \
   -v /Users/hathawayj/git/BYUI451/docker_guide/scripts:/home/jovyan/scripts \
   -v /Users/hathawayj/git/BYUI451/docker_guide/scratch:/home/jovyan/scratch \
-  -v /Users/hathawayj/git/BYUI451/docker_guide/work:/home/jovyan/work \
   --network n451 \
   jupyter/all-spark-notebook
 ```
@@ -67,7 +66,6 @@ docker run --name spark -it ^
   -v C:/git/BYUI451/docker_guide/data:/home/jovyan/data ^
   -v C:/git/BYUI451/docker_guide/scripts:/home/jovyan/scripts ^
   -v C:/git/BYUI451/docker_guide/scratch:/home/jovyan/scratch ^
-  -v C:/git/BYUI451/docker_guide/work:/home/jovyan/work ^
   --network n451 ^
   jupyter/all-spark-notebook
 ```
