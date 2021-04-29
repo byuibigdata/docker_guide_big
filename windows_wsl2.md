@@ -26,7 +26,7 @@ Based on [this guide](https://itnext.io/wsl2-tips-limit-cpu-memory-when-using-do
 
 4. Save the `.wslconfig` file and restart Docker.
 
-You can see the other [WSL 2 Settings](https://docs.microsoft.com/en-us/windows/wsl/wsl-config#wsl-2-settings) available for manipulation using the `.wslconig`.
+You can see the other [WSL 2 Settings](https://docs.microsoft.com/en-us/windows/wsl/wsl-config#wsl-2-settings) available for manipulation using the `.wslconfig`.
 
 ### Other references
 
